@@ -13,8 +13,10 @@ const Statistics = ({props}) => {
 
   return (
     <div>
-        <h1>Statistics</h1>
-        <p>Good: {Good}</p>
+      <h1>Statistics</h1>
+      {all > 0 ? (
+          <>
+           <p>Good: {Good}</p>
         <p>Neutral: {Neutral}</p>
         <p>Bad: {Bad}</p>
         <br/>
@@ -23,6 +25,7 @@ const Statistics = ({props}) => {
         <p>Average: { average > 0 ? average.toString() : "0"} </p>
 
         <p>Positive Percentage: { percentage > 0 ? percentage.toString() + "%": "0%"}</p>
+        </>) : (<p>No Feedback Given</p>)}
     </div>
   )
 }
