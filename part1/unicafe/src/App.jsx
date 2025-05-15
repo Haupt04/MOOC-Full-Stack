@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import { Button } from './components/Button'
+import StatisticsLine from './components/StatisticsLine'
 
 
 const Statistics = ({props}) => {
@@ -10,22 +11,26 @@ const Statistics = ({props}) => {
   let average = (Good - Bad) / all
   let percentage = Good / all * 100
 
+  if (all> 0) {
+    average = average.toString()
+  } else {
+    average = "0"
+  }
+
+  if (all > 0){
+    percentage = percentage.toString() + "%"
+  } else {
+    percentage = "No Feedback Given"
+  }
 
   return (
     <div>
-      <h1>Statistics</h1>
-      {all > 0 ? (
-          <>
-           <p>Good: {Good}</p>
-        <p>Neutral: {Neutral}</p>
-        <p>Bad: {Bad}</p>
-        <br/>
-        <p>Total Votes: {all}</p>
-
-        <p>Average: { average > 0 ? average.toString() : "0"} </p>
-
-        <p>Positive Percentage: { percentage > 0 ? percentage.toString() + "%": "0%"}</p>
-        </>) : (<p>No Feedback Given</p>)}
+      <StatisticsLine text="Good: " value={Good} />
+      <StatisticsLine text="Neutral:" value={Neutral} />
+      <StatisticsLine text="Bad: " value={Bad} />
+      <StatisticsLine text="Total Votes: " value={all} />
+      <StatisticsLine text="Average: " value={average} />
+      <StatisticsLine text="Positive Percentage: " value={percentage} />
     </div>
   )
 }
