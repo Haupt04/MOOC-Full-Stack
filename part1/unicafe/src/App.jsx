@@ -3,19 +3,20 @@ import './App.css'
 import { Button } from './components/Button'
 
 
-const Statistics = ({good, neutral, bad}) => {
+const Statistics = ({props}) => {
+  const {Good,Bad,Neutral} = props
   
-  let all = good + neutral + bad
-  let average = (good - bad) / all
-  let percentage = good / all * 100
+  let all = Good + Neutral + Bad
+  let average = (Good - Bad) / all
+  let percentage = Good / all * 100
 
 
   return (
     <div>
         <h1>Statistics</h1>
-        <p>Good: {good}</p>
-        <p>Neutral: {neutral}</p>
-        <p>Bad: {bad}</p>
+        <p>Good: {Good}</p>
+        <p>Neutral: {Neutral}</p>
+        <p>Bad: {Bad}</p>
         <br/>
         <p>Total Votes: {all}</p>
 
@@ -51,7 +52,7 @@ function App() {
       <Button handle={handleGoodButton} text="Good" />
       <Button handle={handleNeutralButton} text="Neutral" />
       <Button handle={handleBadButton} text="Bad" />
-      <Statistics good={good} neutral={neutral} bad={bad} />
+      <Statistics props={{Good: good,Neutral: neutral,Bad: bad}} />
     </div>
   )
    
