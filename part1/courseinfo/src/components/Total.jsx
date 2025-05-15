@@ -1,10 +1,10 @@
 
 
-function Total({data}) {
+function Total({part1, part2, part3}) {
 
 
   return (
-    <p>Number of exercises {data.exercises1 + data.exercises2 + data.exercises3}</p>
+    <p>Number of exercises {part1.exercises + part2.exercises + part3.exercises}</p>
   )
 }
 
