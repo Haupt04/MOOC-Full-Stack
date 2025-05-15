@@ -1,13 +1,13 @@
 import Part from "./Part"
 
 
-function Content({part1, part2, part3}) {
-  
+function Content({parts}) {
+
   return (
     <div>
-        <Part part={part1.name} exercise={part1.exercises} />
-        <Part part={part2.name} exercise={part2.exercises} />
-        <Part part={part3.name} exercise={part3.exercises} />
+        <Part parts={parts[0]} />
+        <Part parts={parts[1]} />
+        <Part parts={parts[2]} />
     </div>
   )
 }
