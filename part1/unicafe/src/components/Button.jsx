@@ -1,8 +1,8 @@
-import './App.css'
+import '../App.css'
 
 export const Button = ({handle, text}) => {
   return (
-    <div className="space">
+    <div >
         <button className="space" onClick={handle}>{text}</button>
     </div>
  
