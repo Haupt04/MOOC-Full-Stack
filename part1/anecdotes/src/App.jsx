@@ -2,6 +2,30 @@ import { useState } from 'react'
 import './App.css'
 
 
+const MostVotes = ({anecdotes, votes}) => {
+  console.log("vOTES:",votes)
+    let max = -Infinity
+    let index = -1
+
+    for (let i = 0; i < votes.length; i++){
+      if (votes[i] > max){
+        max = votes[i];
+        index = i;
+      }
+    }
+    return (
+      <div>
+        <h2>Most Votes Anecdotes</h2>
+        <div>
+          <p>{anecdotes[index]}</p>
+        </div>
+        <div>
+          <p>Total Votes: {max.toString()}</p>
+        </div>
+      </div>
+    )
+  }
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -32,8 +56,11 @@ const App = () => {
     setVotes(copy)
   }
 
+  
+
   return (
     <>
+    <h2>Anecdote of the day</h2>
     <div>
       {anecdotes[selected]}
     </div>
@@ -42,6 +69,9 @@ const App = () => {
     </div>
     <button onClick={randomNumberButton}>New Anecdotes</button>
     <button onClick={() => handleVotes(selected)}>Vote</button>
+    <div>
+      <MostVotes anecdotes={anecdotes} votes={votes} />
+    </div>
     </>
   )
 }
