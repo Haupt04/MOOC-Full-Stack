@@ -50,6 +50,7 @@ const App = () => {
   return (
     <div>
       <h1>WEB DEVELOPMENT CURRICULUM</h1>
+      {/* Already completed 2.5 below */}
       {course.map((c) => <Course course={c} key={c.id}/>)}
     </div>
   
