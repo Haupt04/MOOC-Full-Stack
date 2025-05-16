@@ -11,10 +11,16 @@ const Statistics = ({props}) => {
   let average = (Good - Bad) / all
   let percentage = Good / all * 100
 
-  if (all> 0) {
+  if (all > 0) {
     average = average.toString()
   } else {
-    average = "0"
+    return (
+      <tbody>
+        <tr>
+          <td>No feedback given</td>
+        </tr>
+      </tbody>
+    )
   }
 
   if (all > 0){
@@ -24,14 +30,14 @@ const Statistics = ({props}) => {
   }
 
   return (
-    <div>
-      <StatisticsLine text="Good: " value={Good} />
-      <StatisticsLine text="Neutral:" value={Neutral} />
-      <StatisticsLine text="Bad: " value={Bad} />
-      <StatisticsLine text="Total Votes: " value={all} />
-      <StatisticsLine text="Average: " value={average} />
-      <StatisticsLine text="Positive Percentage: " value={percentage} />
-    </div>
+     <tbody>
+      <StatisticsLine text="Good" value={Good} />
+      <StatisticsLine text="Neutral" value={Neutral} />
+      <StatisticsLine text="Bad" value={Bad} />
+      <StatisticsLine text="Total Votes" value={all} />
+      <StatisticsLine text="Average" value={average} />
+      <StatisticsLine text="Positive Percentage" value={percentage} />
+    </tbody>
   )
 }
 
@@ -55,13 +61,17 @@ function App() {
     setBad(prev => prev + 1)
   }
   return (
-    <div>
-      <h1>Giving Feedback</h1>
+    <>
+    <h2>Giving Feedback</h2>
       <Button handle={handleGoodButton} text="Good" />
       <Button handle={handleNeutralButton} text="Neutral" />
       <Button handle={handleBadButton} text="Bad" />
+      
+      <h2>Statistics</h2>
+      <table className="statistics-table">
       <Statistics props={{Good: good,Neutral: neutral,Bad: bad}} />
-    </div>
+      </table>
+    </>
   )
    
 }
