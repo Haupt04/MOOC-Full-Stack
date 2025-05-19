@@ -42,6 +42,7 @@ const App = () => {
 
     const check = persons.find((person) => person.name === newName)
     
+    
     if (!check) {
       Server.createEntry(personObject)
       .then(response => {
@@ -51,7 +52,16 @@ const App = () => {
       })
       
     } else {
-      window.alert(`${newName} is already in the phonebook`)
+      const confirm = window.confirm(`${check.name} is already added to the phonebook, replace the old number with a new number? `)
+      if (confirm){
+        Server.updatePerson(check.id, personObject)
+      .then(response => {
+        setPersons(persons.map(person => person.id !== check.id ? person: response))
+        setNewName('')
+        setNum('')
+      })
+      }
+      
     }
   }
 
