@@ -55,6 +55,16 @@ const App = () => {
     }
   }
 
+  const deletePerson = (id, name) => {
+   const confirm = window.confirm(`Delete ${name}`)
+   if (confirm) {
+    Server.deletePerson(id).then(() => {
+        setPersons(persons.filter(person => person.id !== id))
+        console.log("Deleted Successfully")
+    })
+   }
+  }
+  
   const filteredPersons = search
     ? persons.filter(person => Object.values(person).some(value =>
         String(value).toLowerCase().includes(search.toLowerCase())
@@ -78,7 +88,7 @@ console.log("Rendering Persons with:", filteredPersons)
       />
       
       <h2>Numbers</h2>
-      <Persons persons={filteredPersons || []} />
+      <Persons persons={filteredPersons || []} deletePerson={deletePerson} />
     </div>
   )
 }
