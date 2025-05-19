@@ -3,8 +3,8 @@ import './App.css'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
-import axios from "axios"
 import { useEffect } from 'react'
+import Server from './server.js'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -14,11 +14,11 @@ const App = () => {
 
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/persons").then(response => {
-        console.log("axios", response.data)
-        setPersons(response.data)
-      })
+    Server.getAllPerson()
+    .then(response => {
+      console.log("axios", response)
+      setPersons(response)
+    })
   },[])
 
   const handleNewName = (event) => {
@@ -43,9 +43,13 @@ const App = () => {
     const check = persons.find((person) => person.name === newName)
     
     if (!check) {
-      setPersons(persons.concat(personObject))
-      setNewName('')
-      setNum('')
+      Server.createEntry(personObject)
+      .then(response => {
+        setPersons(persons.concat(response))
+        setNewName('')
+        setNum('')
+      })
+      
     } else {
       window.alert(`${newName} is already in the phonebook`)
     }
@@ -56,6 +60,8 @@ const App = () => {
         String(value).toLowerCase().includes(search.toLowerCase())
       ))
     : persons
+
+console.log("Rendering Persons with:", filteredPersons)
 
   return (
     <div>
@@ -72,7 +78,7 @@ const App = () => {
       />
       
       <h2>Numbers</h2>
-      <Persons persons={filteredPersons} />
+      <Persons persons={filteredPersons || []} />
     </div>
   )
 }
