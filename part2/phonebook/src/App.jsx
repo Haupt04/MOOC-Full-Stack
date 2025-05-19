@@ -18,12 +18,25 @@ const Notification = ({ message }) => {
     )
   }
 
+  const ErrorMessage = ({ message }) => {
+    if (message == null) {
+      return null
+    }
+
+    return (
+      <div className='error'>
+        {message}
+      </div>
+    )
+  }
+
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNum, setNum] = useState('')
   const [search, setSearch] = useState('')
   const [message, setMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
 
 
@@ -72,6 +85,12 @@ const App = () => {
         setMessage(null)
       }, 5000)
       })
+      .catch(error => {
+        setErrorMessage(error.message)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
+      })
     } else {
       const confirm = window.confirm(`${check.name} is already added to the phonebook, replace the old number with a new number? `)
       if (confirm){
@@ -81,6 +100,12 @@ const App = () => {
         setNewName('')
         setNum('')
         setMessage(`${check.name} has been updated`)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
+      })
+      .catch(error => {
+        setErrorMessage(error.message)
         setTimeout(() => {
           setMessage(null)
         }, 5000)
@@ -113,6 +138,7 @@ console.log("Rendering Persons with:", filteredPersons)
       <h2>Phonebook</h2>
       <Filter search={search} handleSearch={handleSearch} />
       <Notification message={message}/>
+      <ErrorMessage message={errorMessage} /> 
       <h2>Add new user</h2>
       <PersonForm
         addPerson={addPerson}
