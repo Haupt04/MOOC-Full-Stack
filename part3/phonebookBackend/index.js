@@ -2,6 +2,15 @@ import express from 'express'
 
 const app = express()
 
+app.use(express.json())
+
+
+const generateId = () => {
+  return String(Math.floor(Math.random() * 10000000))
+}
+
+
+
 let data = [
     { 
       "id": "1",
@@ -28,6 +37,24 @@ let data = [
 app.get("/api/persons", (request, response) => {
     response.json(data)
    
+})
+
+app.post("/api/persons", (request, response) => {
+    const body = request.body
+    
+    if (!body.name || !body.number){
+      return response.status(400).json({error: 'content missing'})
+    }
+
+    const entry = {
+      id: generateId(),
+      name: body.name,
+      number: body.number
+    }
+
+    data = data.concat(entry)
+   
+    response.json(data)
 })
 
 app.get("/api/persons/:id", (request, response) => {
