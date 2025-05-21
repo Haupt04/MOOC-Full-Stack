@@ -46,6 +46,12 @@ app.post("/api/persons", (request, response) => {
       return response.status(400).json({error: 'content missing'})
     }
 
+    const check = data.find(d => d.name == body.name)
+
+    if (check){
+      return response.status(400).json({error: 'name must be unique'})
+    }
+
     const entry = {
       id: generateId(),
       name: body.name,
