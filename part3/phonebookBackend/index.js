@@ -4,8 +4,12 @@ import morgan from 'morgan'
 const app = express()
 
 app.use(express.json())
-app.use(morgan('tiny'))
 
+morgan.token('body', (request) => {
+  return request.method === 'POST' ? JSON.stringify(request.body) : '';
+})
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
 
 const generateId = () => {
   return String(Math.floor(Math.random() * 10000000))
