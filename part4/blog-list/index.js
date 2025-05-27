@@ -7,6 +7,7 @@ const app = express()
 
 app.use(express.json())
 
+// Completed 4.2
 app.use('/api/blogs', dbFunction)
 
 
