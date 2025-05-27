@@ -85,7 +85,7 @@ app.get("/api/persons/:id", async (request, response, next) => {
 app.get("/info", async (request, response) => {
     const count = await getAllEntries();
     const time = new Date();
-    response.send(`<p>Phonebook has info for ${count.length} people</p><p>${time}</p>`);
+    response.send(`<p>Phonebook has info for ${count.length} people</p><p>Current time: ${time}</p>`);
 });
 
 // Step 3.15
