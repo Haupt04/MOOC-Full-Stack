@@ -7,7 +7,7 @@ const router = express.Router()
 router.get('/', async (request, response) => {
     try {
         const blogs = await Blog.find({})
-        response.json(blogs)
+        response.status(200).json(blogs)
     } catch (error) {
         response.status(500).json({ error: 'Failed to fetch blogs' })
     }

@@ -1,6 +1,7 @@
-const { test, describe } = require('node:test')
-const assert = require('node:assert')
-const listHelper = require('../utils/list_helper')
+import { test, describe } from 'node:test'
+import assert from 'node:assert'
+import listHelper from '../utils/list_helper.js'
+
 
 test('dummy returns one', () => {
   const blogs = []
