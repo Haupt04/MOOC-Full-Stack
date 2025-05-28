@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import supertest from 'supertest'
 import app from '../index.js'
 import Blog from '../models/entry.model.js'
-import { test, beforeEach, after } from 'node:test'
+import { test, beforeEach, after, describe } from 'node:test'
 import assert from 'assert'
 
 const api = supertest(app)
@@ -15,6 +15,7 @@ const initialBlogs = [
 beforeEach(async () => {
   await Blog.deleteMany({})
   await Blog.insertMany(initialBlogs)
+  console.log('BeforeEach completed - DB reset')
 })
 
 test('Gets Blog Posts via GET request', async () => {
@@ -88,6 +89,56 @@ test('Checking we get 400 Bad Request when POST without url/title', async () => 
     .expect(400)
     .expect('Content-Type', /application\/json/)
 
+})
+
+describe('Deleting Blog Posts', () => {
+
+  test('Deleting a first blog post', async () => {
+    const response = await api
+    .get("/api/blogs")
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+    const blogDeleted = response.body[0]
+
+    const deleteRequest = await api
+      .delete(`/api/blogs/${blogDeleted.id}`)
+      .expect(204)
+
+
+    const responseAfter = await api.get("/api/blogs")
+
+    assert.strictEqual(responseAfter.body.length, initialBlogs.length - 1)
+
+    const ids = responseAfter.body.map(blog => blog.id)
+    assert.ok(!ids.includes(blogDeleted.id))
+  })
+})
+
+test('Updating first blog post', async () => {
+  const updatedBlog = {
+    title: 'Updated Title',
+    author: 'Updated Author',
+    url: 'http://example.com/updated',
+    likes: 2,
+  }
+
+  const response = await api
+    .get("/api/blogs")
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const oldBlog = response.body[0]
+
+
+  const updateRequest = await api
+    .put(`/api/blogs/${oldBlog.id}`)
+    .send(updatedBlog)
+    .expect(200)   // This is where it fails with 404
+
+  const responseAfter = await api.get(`/api/blogs/${oldBlog.id}`).expect(200)
+
+  assert.deepStrictEqual(responseAfter.body, updateRequest.body)
 })
 
 

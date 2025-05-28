@@ -1,6 +1,6 @@
 import express from 'express'
 import connectDatabase from './services/db.js'
-import dbFunction from './middleware/dbFunctions.js'
+import dbFunction from './route/router.js'
 import config from './utils/config.js'
 const { PORT } = config
 
@@ -11,6 +11,7 @@ app.use(express.json())
 
 // Completed 4.2
 app.use('/api/blogs', dbFunction)
+
 
 
 connectDatabase()
