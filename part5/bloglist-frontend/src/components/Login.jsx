@@ -2,7 +2,8 @@ import { useState } from "react"
 import loginService from "../services/login"
 import blogService from '../services/blogs'
 
-export const Login = ({user,setUser, setErrorMessage}) => {
+// Completed 5.6
+export const Login = ({user, setUser, setErrorMessage}) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
