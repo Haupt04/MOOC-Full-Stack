@@ -1,8 +1,26 @@
 import { useState } from "react"
-import Togglable from "./Togglable"
+import BlogService from '../services/blogs.js'
 
-const Blog = ({ blog }) => {
+
+const Blog = ({ blog}) => {
   const [displayVisible, setDisplayVisible] = useState(false)
+  const [likes, setLikes] = useState(blog.likes)
+
+  const handleLikeButton = async (blog) => {
+    try {
+      console.log('Blog', blog)
+      const updatedBlog = await BlogService.update(blog._id || blog.id, {
+        user: blog.user?.id || blog.user,
+        likes: blog.likes + 1,
+        author: blog.author,
+        title: blog.title,
+        url:blog.url
+      })
+      setLikes(updatedBlog.likes)
+    } catch (error) {
+      console.log("Error", error)
+    }
+  }
 
   const blogStyle = {
     paddingTop: 10,
@@ -16,8 +34,6 @@ const Blog = ({ blog }) => {
   const hideWhenVisible = { display: displayVisible? 'none' : '' }
   const showWhenVisible = { display: displayVisible ? '' : 'none' }
 
-
-
   return (
   <div style={blogStyle}>
     <p>{blog.title} by {blog.author}</p>
@@ -28,8 +44,8 @@ const Blog = ({ blog }) => {
     <div style={showWhenVisible}>
       <p>Url: {blog.url}</p>
       <div>
-        <p>Likes: {blog.likes.toString()}</p>
-        <button>Likes</button>
+        <p>Likes: {likes.toString()}</p>
+        <button onClick={() => handleLikeButton(blog)}>Like</button>
       </div>
       <p>Author: {blog.author}</p>
       <button onClick={() => setDisplayVisible(false)}>Hide</button>
