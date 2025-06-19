@@ -25,10 +25,22 @@ const App = () => {
     const loggedInUser = window.localStorage.getItem('loggedInUser')
     if (loggedInUser){
       const user = JSON.parse(loggedInUser)
+      BlogService.setToken(user.token)
       setUser(user)
     }
   }, [])
 
+    const handleDelete = async (blogToDelete) => {
+    try {
+      const ask = window.confirm(`Delete ${blogToDelete.title} by ${blogToDelete.author}`)
+      if (ask){
+       await BlogService.deleteBlog(blogToDelete._id || blogToDelete.id)
+       setBlogs(blogs.filter(blog => blog.id !== blogToDelete.id))
+      }
+    } catch (error) {
+      console.log("Error", error)
+    }
+  }
 
   const logoutBtn = async () => {
     window.localStorage.removeItem('loggedInUser')
@@ -70,7 +82,7 @@ const App = () => {
         <p>{user.name} has logged in</p>
         <button onClick={logoutBtn}>Log Out</button>
         {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} user={user}/>
+        <Blog key={blog.id} blog={blog} user={user} handleDelete={handleDelete}/>
       )}
       {/* Exercise 5.5 */}
         <Togglable buttonLabel="Create Blog">

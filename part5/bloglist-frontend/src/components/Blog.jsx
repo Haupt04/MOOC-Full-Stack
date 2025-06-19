@@ -1,8 +1,8 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import BlogService from '../services/blogs.js'
 
 
-const Blog = ({ blog}) => {
+const Blog = ({ blog, user, handleDelete }) => {
   const [displayVisible, setDisplayVisible] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
 
@@ -49,6 +49,10 @@ const Blog = ({ blog}) => {
       </div>
       <p>Author: {blog.author}</p>
       <button onClick={() => setDisplayVisible(false)}>Hide</button>
+      {(blog.user?.id || blog.user) === user.id && (
+      <button onClick={() => handleDelete(blog)}>Delete</button>
+      )}
+
     </div>
   </div>  
 )
